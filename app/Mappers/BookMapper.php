@@ -12,9 +12,9 @@ class BookMapper implements Mappable, ListMappable
     public function map(array $attributes): DTO
     {
         $book = new Book();
-        $book->title = $attributes['title'] ?? '';
-        $book->description = $attributes['description'] ?? '';
-        $book->author = $attributes['author'];
+        $book->listName = isset($attributes['list_name']) && is_scalar($attributes['list_name']) ? $attributes['list_name'] : '';
+        $book->isbns = isset($attributes['isbns']) && is_array($attributes['isbns']) ? $attributes['isbns'] : [];
+        $book->bookDetails = isset($attributes['book_details']) && is_array($attributes['book_details']) ? $attributes['book_details'] : [];
         return $book;
     }
 
