@@ -2,7 +2,7 @@
 
 namespace App\Interfaces;
 
-interface Mapper
+interface Mappable
 {
     public function map(array $attributes): DTO;
 }

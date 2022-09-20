@@ -2,17 +2,24 @@
 
 namespace App\Services;
 
-use App\Interfaces\ApiService;
+use App\Interfaces\ParamsAllowableApiService;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Mockery\Exception;
 
-class NYBestSellersBooksApiService implements ApiService
+class NYBestSellersBooksApiService extends AbstractApiService
 {
     private const API_URL = "https://api.nytimes.com/svc/books/v3/lists.json";
 
     private array $defaultParams = [
         'list' => 'hardcover-fiction',
+    ];
+
+    private array $allowedParams = [
+        'list ',
+        'bestsellers-date',
+        'published-date',
+        'offset',
     ];
 
     public function __construct()
@@ -26,10 +33,7 @@ class NYBestSellersBooksApiService implements ApiService
 
     public function fetch(array $params = []): Response
     {
-        return Http::get(self::API_URL, array_merge(
-                $this->defaultParams,
-                $params,
-            )
-        )->throw();
+        $this->filterParams($this->allowedParams, $params);
+        return Http::get(self::API_URL, array_merge($this->defaultParams, $params))->throw();
     }
 }
