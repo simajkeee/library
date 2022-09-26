@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Exceptions\Messages;
+
+
 class ExceptionMessage
 {
     static public function noApiKey(string $className) {
