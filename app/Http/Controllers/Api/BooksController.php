@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Mappers\BookMapper;
+use App\Models\JsonResponseModel;
 use App\Models\JsonResponseSuccessModel;
 use App\Services\NYBestSellersBooksApiService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class BooksController extends Controller
 {
@@ -20,7 +20,7 @@ class BooksController extends Controller
     {
         $results = $apiService->fetch(['list' => $list])->json('results') ?: [];
 
-        return JsonResponseSuccessModel::jsonResponse($mapper->mapList($results), Response::HTTP_OK);
+        return JsonResponseModel::success($mapper->mapList($results));
     }
 
     /**
