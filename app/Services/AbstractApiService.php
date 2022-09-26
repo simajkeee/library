@@ -7,9 +7,14 @@ use Illuminate\Http\Client\Response;
 
 abstract class AbstractApiService implements Fetchable
 {
-    protected function filterParams(array $allowedKeys, array $passedParams): array
+    protected array $allowedParams = [];
+
+    protected function filterParams(array $passedParams): array
     {
-        return array_filter($passedParams, fn($key) => isset($allowedKeys[$key]),ARRAY_FILTER_USE_KEY);
+        if (!$this->allowedParams) {
+            return $passedParams;
+        }
+        return array_filter($passedParams, fn($key) => in_array($key, $this->allowedParams),ARRAY_FILTER_USE_KEY);
     }
 
     abstract public function fetch(array $params): Response;

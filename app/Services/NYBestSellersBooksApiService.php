@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Exceptions\Messages\ExceptionMessage;
 use App\Interfaces\ParamsAllowableApiService;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Mockery\Exception;
@@ -15,25 +17,29 @@ class NYBestSellersBooksApiService extends AbstractApiService
         'list' => 'hardcover-fiction',
     ];
 
-    private array $allowedParams = [
-        'list ',
+    protected array $allowedParams = [
+        'list',
         'bestsellers-date',
         'published-date',
         'offset',
     ];
 
-    public function __construct()
+    public function __construct(string $apiKey)
     {
-        $apiKey = config('services.ny_times.key');
         if (!$apiKey) {
-            throw new Exception(\ExceptionMessage::noApiKey(self::class));
+            throw new Exception(ExceptionMessage::noApiKey(self::class));
         }
         $this->defaultParams['api-key'] = $apiKey;
     }
 
+    /**
+     * @param array $params
+     * @return Response
+     * @throws RequestException
+     */
     public function fetch(array $params = []): Response
     {
-        $this->filterParams($this->allowedParams, $params);
-        return Http::get(self::API_URL, array_merge($this->defaultParams, $params))->throw();
+        $filteredParams = $this->filterParams($params);
+        return Http::get(self::API_URL, array_merge($this->defaultParams, $filteredParams))->throw();
     }
 }
