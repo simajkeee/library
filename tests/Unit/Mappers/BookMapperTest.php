@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit;
+namespace Mappers;
 
 use App\DTOs\Book;
 use App\Mappers\BookMapper;
 use PHPUnit\Framework\TestCase;
 
-class MappersTest extends TestCase
+class BookMapperTest extends TestCase
 {
     /**
      * @dataProvider providedData

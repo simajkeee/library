@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Unit;
+namespace Services;
 
 use App\Services\NYBestSellersBooksApiService;
 use PHPUnit\Framework\TestCase;
+use function app;
 
 class NYApiServicesTest extends TestCase
 {
