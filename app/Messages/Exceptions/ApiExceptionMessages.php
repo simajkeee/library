@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Exceptions\Messages;
+namespace App\Messages\Exceptions;
 
 
-class ExceptionMessage
+class ApiExceptionMessages
 {
     static public function noApiKey(string $className) {
         return sprintf('API key is not provided for %s service', $className);

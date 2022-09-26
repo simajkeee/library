@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Exceptions\Messages\ExceptionMessage;
 use App\Interfaces\ParamsAllowableApiService;
+use App\Messages\Exceptions\ApiExceptionMessages;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -27,7 +27,7 @@ class NYBestSellersBooksApiService extends AbstractApiService
     public function __construct(string $apiKey)
     {
         if (!$apiKey) {
-            throw new Exception(ExceptionMessage::noApiKey(self::class));
+            throw new Exception(ApiExceptionMessages::noApiKey(self::class));
         }
         $this->defaultParams['api-key'] = $apiKey;
     }
