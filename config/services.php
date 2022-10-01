@@ -34,5 +34,7 @@ return [
     'ny_times' => [
         'key' => env('NY_TIMES_API_KEY')
     ],
-
+    'google_books' => [
+        'key' => env('GOOGLE_BOOKS_API_KEY')
+    ]
 ];
