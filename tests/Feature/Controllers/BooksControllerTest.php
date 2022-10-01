@@ -9,9 +9,9 @@ use Tests\TestCase;
 class BooksControllerTest extends TestCase
 {
     /**
-     * @dataProvider ny_best_sellers_api_service_fetch_method_returns_success_code
+     * @dataProvider index_method_returns_success_code
      */
-    public function test_ny_best_sellers_api_service_fetch_method_returns_success_code(int $status, array $results)
+    public function test_index_method_returns_success_code(int $status, array $results)
     {
         \Http::fake([
             'api.nytimes.com/*' => \Http::response([
@@ -25,10 +25,17 @@ class BooksControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_show_method_returns_success_code()
+    {
+        $response = $this->get('/api/books/list/bestsellers/book/059344955X');
+
+        $response->assertStatus(200);
+    }
+
     /**
-     * @dataProvider ny_best_sellers_fetch_method_called_once
+     * @dataProvider ny_best_sellers_fetch_method_called_once_in_index_method
      */
-    public function test_ny_best_sellers_fetch_method_called_once(int $status, array $results)
+    public function test_ny_best_sellers_fetch_method_called_once_in_index_method(int $status, array $results)
     {
         \Http::fake([
             'api.nytimes.com/*' => \Http::response([
@@ -45,9 +52,9 @@ class BooksControllerTest extends TestCase
     }
 
     /**
-     * @dataProvider ny_best_sellers_api_service_fetch_method_returns_error_code
+     * @dataProvider ny_best_sellers_api_service_fetch_method_returns_error_code_in_index_method
      */
-    public function test_ny_best_sellers_api_service_fetch_method_returns_error_code($status, $results)
+    public function test_ny_best_sellers_fetch_method_returns_error_code_in_index_method($status, $results)
     {
         \Http::fake([
             'api.nytimes.com/*' => \Http::response([
@@ -61,21 +68,21 @@ class BooksControllerTest extends TestCase
         $response->assertStatus(500);
     }
 
-    public function ny_best_sellers_api_service_fetch_method_returns_error_code()
+    public function ny_best_sellers_api_service_fetch_method_returns_error_code_in_index_method()
     {
         return [
             [400, []]
         ];
     }
 
-    public function ny_best_sellers_fetch_method_called_once()
+    public function ny_best_sellers_fetch_method_called_once_in_index_method()
     {
         return [
             [200, []]
         ];
     }
 
-    public function ny_best_sellers_api_service_fetch_method_returns_success_code()
+    public function index_method_returns_success_code()
     {
         return [
             [
