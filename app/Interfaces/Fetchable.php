@@ -6,5 +6,5 @@ use Illuminate\Http\Client\Response;
 
 interface Fetchable
 {
-    public function fetch(array $params): Response;
+    public function fetch(array $params): array;
 }

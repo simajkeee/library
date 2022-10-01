@@ -34,12 +34,14 @@ class NYBestSellersBooksApiService extends AbstractApiService
 
     /**
      * @param array $params
-     * @return Response
+     * @return array
      * @throws RequestException
      */
-    public function fetch(array $params = []): Response
+    public function fetch(array $params = []): array
     {
         $filteredParams = $this->filterParams($params);
-        return Http::get(self::API_URL, array_merge($this->defaultParams, $filteredParams))->throw();
+        return Http::get(self::API_URL, array_merge($this->defaultParams, $filteredParams))
+                   ->throw()
+                   ->json('results') ?: [];
     }
 }

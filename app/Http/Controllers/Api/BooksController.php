@@ -18,9 +18,9 @@ class BooksController extends Controller
      */
     public function index(string $list, NYBestSellersBooksApiService $apiService, BookMapper $mapper)
     {
-        $results = $apiService->fetch(['list' => $list])->json('results') ?: [];
+        $params = $list ? ['list' => $list] : [];
 
-        return JsonResponseModel::success($mapper->mapList($results));
+        return JsonResponseModel::success($mapper->mapList($apiService->fetch($params)));
     }
 
     /**
