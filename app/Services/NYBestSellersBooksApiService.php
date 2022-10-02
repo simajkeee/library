@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Interfaces\ParamsAllowableApiService;
 use App\Messages\Exceptions\ApiExceptionMessages;
 use Illuminate\Http\Client\RequestException;
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Mockery\Exception;
 
@@ -13,7 +12,7 @@ class NYBestSellersBooksApiService extends AbstractApiService
 {
     private const API_URL = "https://api.nytimes.com/svc/books/v3/lists.json";
 
-    private array $defaultParams = [
+    protected array $defaultParams = [
         'list' => 'hardcover-fiction',
     ];
 
@@ -39,8 +38,12 @@ class NYBestSellersBooksApiService extends AbstractApiService
      */
     public function fetch(array $params = []): array
     {
-        $filteredParams = $this->filterParams($params);
-        return Http::get(self::API_URL, array_merge($this->defaultParams, $filteredParams))
+        return $this->get($this->filterParams($params));
+    }
+
+    protected function get(array $params = [])
+    {
+        return Http::get(self::API_URL, array_merge($this->defaultParams, $params))
                    ->throw()
                    ->json('results') ?: [];
     }
