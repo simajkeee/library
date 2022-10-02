@@ -17,5 +17,5 @@ abstract class AbstractApiService implements Fetchable
         return array_filter($passedParams, fn($key) => in_array($key, $this->allowedParams),ARRAY_FILTER_USE_KEY);
     }
 
-    abstract public function fetch(array $params): array;
+    abstract public function fetch(array $params = []): array;
 }

@@ -2,9 +2,7 @@
 
 namespace App\Interfaces;
 
-use Illuminate\Http\Client\Response;
-
 interface Fetchable
 {
-    public function fetch(array $params): array;
+    public function fetch(array $params = []): array;
 }
