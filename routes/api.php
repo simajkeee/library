@@ -26,6 +26,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prefix' => 'books'], f
              ->name('bestsellers');
 
         Route::get('list/bestsellers/book/{isbn10}', 'BooksController@show')
-             ->name('book');
+             ->name('bestsellers-book');
     });
 });
