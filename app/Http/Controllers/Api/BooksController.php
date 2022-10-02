@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Mappers\BookMapper;
 use App\Models\JsonResponseModel;
 use App\Models\JsonResponseSuccessModel;
 use App\Services\GoogleBooksApiService;
@@ -35,12 +34,12 @@ class BooksController extends Controller
 //    }
 
     /**
-     * @param  string  $isbn10
+     * @param  string  $isbn13
      * @return JsonResponse
      */
-    public function show(string $isbn10, GoogleBooksApiService $apiService): JsonResponse
+    public function show(string $isbn13, GoogleBooksApiService $apiService): JsonResponse
     {
-        return JsonResponseModel::success($apiService->fetch(['q' => "isbn:{$isbn10}"]));
+        return JsonResponseModel::success($apiService->fetch(['q' => "isbn:{$isbn13}"]));
     }
 
 //    /**
