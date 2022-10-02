@@ -25,8 +25,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prefix' => 'books'], f
              ->where(['list' => '[A-Za-z-]+'])
              ->name('bestsellers');
 
-        Route::get('list/bestsellers/book/{isbn10}', 'BooksController@show')
-             ->where(['isbn10' => '[0-9]{13}'])
+        Route::get('list/bestsellers/book/{isbn13}', 'BooksController@show')
+             ->where(['isbn13' => '[0-9]{13}'])
              ->name('bestsellers-book');
     });
 });

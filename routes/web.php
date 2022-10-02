@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\BooksController;
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,4 +11,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [BooksController::class, "index"]);
+//Route::get('/', [BooksController::class, "index"]);
