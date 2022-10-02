@@ -5,7 +5,6 @@ namespace App\Exceptions;
 use App\Models\JsonResponseFailureModel;
 use App\Models\JsonResponseModel;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Http\Request;
 
@@ -50,6 +49,12 @@ class Handler extends ExceptionHandler
         $this->renderable(function (HttpClientException $e, Request $request) {
             if ($this->isApi($request) ) {
                 return JsonResponseModel::error('Internal server error');
+            }
+        });
+
+        $this->renderable(function (HttpBadParamsExceptions $e, Request $request) {
+            if ($this->isApi($request) ) {
+                return JsonResponseModel::error($e->getMessage(), 404);
             }
         });
     }
