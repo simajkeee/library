@@ -1,10 +1,12 @@
 <?php
 
-namespace Services;
+namespace Services\ThirdParty;
 
+use App\Exceptions\HttpBadParamsExceptions;
 use App\Interfaces\Fetchable;
 use App\Services\GoogleBooksApiService;
 use Tests\TestCase;
+use function app;
 
 class GoogleBooksApiServiceTest extends TestCase
 {
@@ -27,9 +29,16 @@ class GoogleBooksApiServiceTest extends TestCase
         $this->assertInstanceOf(Fetchable::class, $this->googleBooksApiService);
     }
 
+    public function test_empty_fetch_method_params_throws_exception()
+    {
+        $this->expectException(HttpBadParamsExceptions::class);
+
+        $this->googleBooksApiService->fetch();
+    }
+
     public function test_fetch_method_returns_array()
     {
-        $responseArray = $this->googleBooksApiService->fetch();
+        $responseArray = $this->googleBooksApiService->fetch(['q' => 'isbn:9780593449554']);
 
         $this->assertNotEmpty($responseArray);
         $this->assertIsArray($responseArray);

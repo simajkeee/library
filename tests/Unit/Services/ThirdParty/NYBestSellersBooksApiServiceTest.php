@@ -1,6 +1,6 @@
 <?php
 
-namespace Services;
+namespace Services\ThirdParty;
 
 use App\Interfaces\Fetchable;
 use App\Services\NYBestSellersBooksApiService;
