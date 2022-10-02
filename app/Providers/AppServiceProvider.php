@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\GoogleBooksApiService;
 use App\Services\NYBestSellersBooksApiService;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(NYBestSellersBooksApiService::class)
                   ->needs('$apiKey')
                   ->giveConfig('services.ny_times.key');
+
+        $this->app->when(GoogleBooksApiService::class)
+                  ->needs('$apiKey')
+                  ->giveConfig('services.google_books.key');
     }
 
     /**
