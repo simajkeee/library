@@ -6,65 +6,63 @@ use App\Http\Controllers\Controller;
 use App\Mappers\BookMapper;
 use App\Models\JsonResponseModel;
 use App\Models\JsonResponseSuccessModel;
+use App\Services\GoogleBooksApiService;
 use App\Services\NYBestSellersBooksApiService;
-use Illuminate\Http\Request;
+use App\Transformers\BestsellersBookListTransformer;
+use Illuminate\Http\JsonResponse;
 
 class BooksController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function index(string $list, NYBestSellersBooksApiService $apiService, BookMapper $mapper)
+    public function index(string $list, NYBestSellersBooksApiService $apiService): JsonResponse
     {
-        $params = $list ? ['list' => $list] : [];
-
-        return JsonResponseModel::success($mapper->mapList($apiService->fetch($params)));
+        return JsonResponseModel::success(
+            BestsellersBookListTransformer::transform($apiService->fetch(['list' => $list]))
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+//    /**
+//     * Store a newly created resource in storage.
+//     *
+//     * @param  \Illuminate\Http\Request  $request
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function store(Request $request)
+//    {
+//        //
+//    }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  string  $isbn10
+     * @return JsonResponse
      */
-    public function show($id)
+    public function show(string $isbn10, GoogleBooksApiService $apiService): JsonResponse
     {
-        //
+        return JsonResponseModel::success($apiService->fetch(['q' => "isbn:{$isbn10}"]));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+//    /**
+//     * Update the specified resource in storage.
+//     *
+//     * @param  \Illuminate\Http\Request  $request
+//     * @param  int  $id
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function update(Request $request, $id)
+//    {
+//        //
+//    }
+//
+//    /**
+//     * Remove the specified resource from storage.
+//     *
+//     * @param  int  $id
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function destroy($id)
+//    {
+//        //
+//    }
 }
