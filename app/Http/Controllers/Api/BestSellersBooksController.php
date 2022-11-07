@@ -10,9 +10,11 @@ use App\Services\NYBestSellersBooksApiService;
 use App\Transformers\BestsellersBookListTransformer;
 use Illuminate\Http\JsonResponse;
 
-class BooksController extends Controller
+class BestSellersBooksController extends Controller
 {
     /**
+     * @param  string $list
+     * @param  NYBestSellersBooksApiService $apiService
      * @return JsonResponse
      */
     public function index(string $list, NYBestSellersBooksApiService $apiService): JsonResponse
@@ -22,46 +24,13 @@ class BooksController extends Controller
         );
     }
 
-//    /**
-//     * Store a newly created resource in storage.
-//     *
-//     * @param  \Illuminate\Http\Request  $request
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function store(Request $request)
-//    {
-//        //
-//    }
-
     /**
-     * @param  string  $isbn13
+     * @param  string $isbn13
+     * @param  GoogleBooksApiService $apiService
      * @return JsonResponse
      */
     public function show(string $isbn13, GoogleBooksApiService $apiService): JsonResponse
     {
         return JsonResponseModel::success($apiService->fetch(['q' => "isbn:{$isbn13}"]));
     }
-
-//    /**
-//     * Update the specified resource in storage.
-//     *
-//     * @param  \Illuminate\Http\Request  $request
-//     * @param  int  $id
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function update(Request $request, $id)
-//    {
-//        //
-//    }
-//
-//    /**
-//     * Remove the specified resource from storage.
-//     *
-//     * @param  int  $id
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function destroy($id)
-//    {
-//        //
-//    }
 }

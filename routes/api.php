@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\BooksController;
+use App\Http\Controllers\Api\BestSellersListsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,14 +19,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\Api', 'prefix' => 'books'], function () {
-    Route::name('books.')->group(function () {
-        Route::get('list/bestsellers/{list}', 'BooksController@index')
-             ->where(['list' => '[A-Za-z-]+'])
-             ->name('bestsellers');
+Route::group(['namespace' => 'App\Http\Controllers\Api', 'prefix' => 'books', 'as' => 'books.'], function () {
+    Route::get('{list}', 'BestSellersBooksController@index')
+        ->where(['list' => '[A-Za-z-]+'])
+        ->name('list');
 
-        Route::get('list/bestsellers/book/{isbn13}', 'BooksController@show')
-             ->where(['isbn13' => '[0-9]{13}'])
-             ->name('bestsellers-book');
-    });
+    Route::get('{isbn13}', 'BestSellersBooksController@show')
+        ->where(['isbn13' => '[0-9]{13}'])
+        ->name('book');
 });

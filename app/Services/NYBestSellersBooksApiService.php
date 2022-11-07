@@ -6,7 +6,6 @@ use App\Interfaces\ParamsAllowableApiService;
 use App\Messages\Exceptions\ApiExceptionMessages;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
-use Mockery\Exception;
 
 class NYBestSellersBooksApiService extends AbstractApiService
 {
@@ -26,7 +25,7 @@ class NYBestSellersBooksApiService extends AbstractApiService
     public function __construct(string $apiKey)
     {
         if (!$apiKey) {
-            throw new Exception(ApiExceptionMessages::noApiKey(self::class));
+            throw new \Exception(ApiExceptionMessages::noApiKey(self::class));
         }
         $this->defaultParams['api-key'] = $apiKey;
     }
