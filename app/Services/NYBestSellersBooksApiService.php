@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Constants\PageItemsNumber;
 use App\Interfaces\ParamsAllowableApiService;
 use App\Messages\Exceptions\ApiExceptionMessages;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Http;
 
 class NYBestSellersBooksApiService extends AbstractApiService
@@ -37,13 +39,21 @@ class NYBestSellersBooksApiService extends AbstractApiService
      */
     public function fetch(array $params = []): array
     {
-        return $this->get($this->filterParams($params));
+        $response = $this->get($this->filterParams($params));
+
+        return (new LengthAwarePaginator(
+            $response["results"] ?? [],
+            $response["num_results"] ?? 0,
+            PageItemsNumber::NY_BESTSELLERS_BOOKS,
+            LengthAwarePaginator::resolveCurrentPage(),
+            ["path" => $params["list"] ?? $this->defaultParams["list"]],
+        ))->toArray();
     }
 
     protected function get(array $params = [])
     {
         return Http::get(self::API_URL, array_merge($this->defaultParams, $params))
                    ->throw()
-                   ->json('results') ?: [];
+                   ->json() ?: [];
     }
 }

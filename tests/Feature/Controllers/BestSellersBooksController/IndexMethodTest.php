@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\BooksController;
+namespace Tests\Feature\Controllers\BestSellersBooksController;
 
 use App\Services\NYBestSellersBooksApiService;
 use Mockery\MockInterface;
@@ -8,6 +8,7 @@ use Tests\TestCase;
 
 class IndexMethodTest extends TestCase
 {
+    private const URI = "/api/bestsellers/lists";
     /**
      * @dataProvider index_method_returns_success_code
      */
@@ -20,7 +21,7 @@ class IndexMethodTest extends TestCase
             ], 200)
         ]);
 
-        $response = $this->get('/api/books/list/bestsellers/hardcover-fiction');
+        $response = $this->get(self::URI . "/hardcover-fiction");
 
         $response->assertStatus(200);
     }
@@ -38,7 +39,7 @@ class IndexMethodTest extends TestCase
             $mock->shouldReceive('fetch')->once();
         });
 
-        $this->get('/api/books/list/bestsellers/hardcover-fiction');
+        $this->get(self::URI . "/hardcover-fiction");
     }
 
     public function test_ny_best_sellers_fetch_method_returns_error_code_in_index_method()
@@ -50,7 +51,7 @@ class IndexMethodTest extends TestCase
             ], 400)
         ]);
 
-        $response = $this->get('/api/books/list/bestsellers/hardcover-fiction');
+        $response = $this->get(self::URI . "/hardcover-fiction");
 
         $response->assertStatus(500);
     }

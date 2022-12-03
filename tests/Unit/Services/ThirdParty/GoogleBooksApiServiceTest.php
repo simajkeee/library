@@ -1,6 +1,6 @@
 <?php
 
-namespace Services\ThirdParty;
+namespace Tests\Unit\Services\ThirdParty;
 
 use App\Exceptions\HttpBadParamsExceptions;
 use App\Interfaces\Fetchable;

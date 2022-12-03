@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\BooksController;
+namespace Tests\Feature\Controllers\BestSellersBooksController;
 
 use App\Services\GoogleBooksApiService;
 use Mockery\MockInterface;
@@ -8,9 +8,11 @@ use Tests\TestCase;
 
 class ShowMethodTest extends TestCase
 {
+    private const URI = "/api/bestsellers/books";
+
     public function test_show_method_returns_success_code()
     {
-        $response = $this->get('/api/books/list/bestsellers/book/9780593449554');
+        $response = $this->get(self::URI . "/9780593449554");
 
         $response->assertStatus(200);
     }
@@ -29,7 +31,7 @@ class ShowMethodTest extends TestCase
             $mock->shouldReceive('fetch')->once();
         });
 
-        $this->get('/api/books/list/bestsellers/book/9780593449554');
+        $this->get(self::URI . "/9780593449554");
     }
 
     /**
@@ -44,7 +46,7 @@ class ShowMethodTest extends TestCase
             ], 200)
         ]);
 
-        $response = $this->get('/api/books/list/bestsellers/book/9780593449554');
+        $response = $this->get(self::URI . "/9780593449554");
         $data = $response->json('data');
 
         $this->assertIsArray($data);

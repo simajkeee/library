@@ -19,12 +19,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\Api', 'prefix' => 'books', 'as' => 'books.'], function () {
-    Route::get('{list}', 'BestSellersBooksController@index')
-        ->where(['list' => '[A-Za-z-]+'])
-        ->name('list');
+Route::group(['namespace' => 'App\Http\Controllers\Api', 'prefix' => 'bestsellers', 'as' => 'books.'], function () {
+    Route::get('/lists', BestSellersListsController::class);
 
-    Route::get('{isbn13}', 'BestSellersBooksController@show')
-        ->where(['isbn13' => '[0-9]{13}'])
+    Route::get('/lists/{list}', 'BestSellersBooksController@index')
+        ->where(['list' => '[A-Za-z-]+'])
+        ->name('single-list');
+
+    Route::get('/books/{isbn}', 'BestSellersBooksController@show')
+        ->where(['isbn' => '[0-9a-zA-z]{10,13}'])
         ->name('book');
 });

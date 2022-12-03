@@ -8,9 +8,9 @@ abstract class AbstractTransformer
     {
     }
 
-    static public function transform(array $toCustomArray): array
+    static public function transform(array $toCustomArray, array $with = []): array
     {
-        return (new static($toCustomArray))->toArray();
+        return array_merge((new static($toCustomArray))->toArray(), $with);
     }
 
     abstract public function toArray(): array;

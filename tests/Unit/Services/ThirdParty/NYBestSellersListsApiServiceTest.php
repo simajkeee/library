@@ -3,24 +3,23 @@
 namespace Tests\Unit\Services\ThirdParty;
 
 use App\Interfaces\Fetchable;
-use App\Services\NYBestSellersBooksApiService;
+use App\Services\NYBestSellersListsApiService;
 use Tests\TestCase;
-use function app;
 
-class NYBestSellersBooksApiServiceTest extends TestCase
+class NYBestSellersListsApiServiceTest extends TestCase
 {
-    protected NYBestSellersBooksApiService $nyBestSellersService;
+    protected NYBestSellersListsApiService $nyBestSellersService;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->nyBestSellersService = app()->make(NYBestSellersBooksApiService::class);
+        $this->nyBestSellersService = app()->make(NYBestSellersListsApiService::class);
     }
 
     public function test_empty_api_key_argument_exception()
     {
         $this->expectException("\Exception");
-        app()->make(NYBestSellersBooksApiService::class, ['apiKey' => '']);
+        app()->make(NYBestSellersListsApiService::class, ['apiKey' => '']);
     }
 
     public function test_implements_fetchable_interface()
@@ -35,4 +34,5 @@ class NYBestSellersBooksApiServiceTest extends TestCase
         $this->assertNotEmpty($responseArray);
         $this->assertIsArray($responseArray);
     }
+
 }

@@ -2,35 +2,47 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Constants\PageItemsNumber;
 use App\Http\Controllers\Controller;
 use App\Models\JsonResponseModel;
 use App\Models\JsonResponseSuccessModel;
 use App\Services\GoogleBooksApiService;
 use App\Services\NYBestSellersBooksApiService;
 use App\Transformers\BestsellersBookListTransformer;
+use App\Transformers\BestsellersBookTransformer;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class BestSellersBooksController extends Controller
 {
     /**
-     * @param  string $list
-     * @param  NYBestSellersBooksApiService $apiService
+     * @param Request                      $request
+     * @param string                       $list
+     * @param NYBestSellersBooksApiService $apiService
      * @return JsonResponse
      */
-    public function index(string $list, NYBestSellersBooksApiService $apiService): JsonResponse
+    public function index(Request $request, string $list, NYBestSellersBooksApiService $apiService): JsonResponse
     {
-        return JsonResponseModel::success(
-            BestsellersBookListTransformer::transform($apiService->fetch(['list' => $list]))
-        );
+        $page = $request->input("page", 1);
+        $response = $apiService->fetch([
+            "list" => $list,
+            "offset" => ($page-1)*PageItemsNumber::NY_BESTSELLERS_BOOKS,
+        ]);
+
+        $response["data"] = BestsellersBookListTransformer::transform($response["data"]);
+
+        return JsonResponseModel::success($response);
     }
 
     /**
-     * @param  string $isbn13
+     * @param  string $isbn
      * @param  GoogleBooksApiService $apiService
      * @return JsonResponse
      */
-    public function show(string $isbn13, GoogleBooksApiService $apiService): JsonResponse
+    public function show(string $isbn, GoogleBooksApiService $apiService): JsonResponse
     {
-        return JsonResponseModel::success($apiService->fetch(['q' => "isbn:{$isbn13}"]));
+        return JsonResponseModel::success(
+            BestsellersBookTransformer::transform($apiService->fetch(["q" => "isbn:{$isbn}"]), ["isbn" => $isbn])
+        );
     }
 }
