@@ -4,7 +4,10 @@ RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y install vim \
     && pecl install xdebug \
-    && docker-php-ext-enable xdebug
+    && docker-php-ext-enable xdebug \
+    && apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql
 
 COPY ./_deploy/apache2/library-site.conf /etc/apache2/sites-available/library-site.conf
 
