@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ArticlesController;
 use App\Http\Controllers\Api\BestSellersListsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,3 +31,5 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prefix' => 'bestseller
         ->where(['isbn' => '[0-9a-zA-z]{10,13}'])
         ->name('book');
 });
+
+Route::resource('articles', ArticlesController::class, []);
