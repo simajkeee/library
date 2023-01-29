@@ -19,6 +19,11 @@ class Comment extends Model
         return $this->belongsTo(Article::class);
     }
 
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
     public function replies()
     {
         return $this->hasMany(Comment::class, 'parent_id')->with('replies.user');
