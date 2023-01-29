@@ -18,6 +18,7 @@ class ArticlesController extends Controller
     {
         return JsonResponseModel::success(
             Article::with([
+                'likes',
                 'comments' => [
                     'user',
                     'replies.user'
