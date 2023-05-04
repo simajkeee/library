@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         ->create([
             "name"  => "Test User",
             "email" => "test@example.com",
+            "password" => bcrypt("123456")
         ]);
 
         $commentUsers = User::factory()->count(10)->create()->toArray();
