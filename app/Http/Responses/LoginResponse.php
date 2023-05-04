@@ -15,10 +15,7 @@ class LoginResponse extends LR
     public function toResponse($request)
     {
         return $request->wantsJson()
-            ? response()->json([
-                'two_factor' => false,
-                'user' => \Auth::check() ? \Auth::user() : null,
-            ])
+            ? response()->json(\Auth::check() ? \Auth::user() : null)
             : redirect()->intended(Fortify::redirects('login'));
     }
 }
